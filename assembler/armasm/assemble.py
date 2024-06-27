@@ -1,12 +1,7 @@
 #!/usr/bin/python3
-import argparse
 import re
-from instructions import *
+from armasm.instructions import *
 import struct
-
-parser = argparse.ArgumentParser()
-parser.add_argument('filename')
-args = parser.parse_args()
 
 #skip leading white spaces
 #skip comments by ignoring everything that follows a ';'
@@ -55,14 +50,17 @@ class AssemblyParser:
 
             op = line.split(' ', 1)[0]
 
-            if op[0] == 'b':
+            if op[0] == 'B':
                 self.instructions.append(Branch(line, self.symbol_table, self.location))
             elif op[0:3] in DataProcessing.OPCODES:
                 self.instructions.append(DataProcessing(line))
-            elif op[0:3] in {'mul', 'mla'}:
+            elif op[0:3] in {'MUL', 'MUL'}:
                 self.instructions.append(Multiply(line))
-            elif op[0:3] in {'ldr', 'str'}:
+            elif op[0:3] in {'LDR', 'STR'}:
                 self.instructions.append(SingleDataTransfer(line))
+            else:
+                raise SyntaxError(line)
+
 
             self.instructions[-1].parse_line()
             self.location += 1
@@ -72,10 +70,10 @@ class AssemblyParser:
         with open('file.bin', 'wb') as f:
             for ins in self.instructions:
                 ins.encode()
+                print(hex(ins.encoding), struct.pack('>I', ins.encoding))
                 f.write(struct.pack('>I', ins.encoding))
 
 
 ap = AssemblyParser()
-ap.parse_file(args.filename)
-
+ap.parse_file('file.S')
 
