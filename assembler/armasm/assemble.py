@@ -70,10 +70,6 @@ class AssemblyParser:
         with open('file.bin', 'wb') as f:
             for ins in self.instructions:
                 ins.encode()
-                print(hex(ins.encoding), struct.pack('>I', ins.encoding))
                 f.write(struct.pack('>I', ins.encoding))
 
-
-ap = AssemblyParser()
-ap.parse_file('file.S')
 
