@@ -7,12 +7,11 @@
 #define REGISTERS 16
 #define PC 15
 #define LR 14
-#define N 0
-#define Z 1
-#define C 2
-#define V 3
-#define TRUE 1
-#define FALSE 0
+#define N 31
+#define Z 30
+#define C 29
+#define V 28
+#define CPSR 16
 
 enum Opcode {
     AND = 0b0000,
