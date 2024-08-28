@@ -20,6 +20,9 @@ def parse_immediate(imm: str) -> int:
 
     return x
 
+def is_imm(imm: str) -> bool:
+    return imm[0] == '#'
+
 def rol(sequence: int, amount: int) -> int:
     return ((sequence << amount) | (sequence >> (32 - amount))) & 0xFFFFFFFF
 
@@ -80,7 +83,7 @@ class Branch(Instruction):
         self.encoding |= self.link << 24
 
         #subtract 8 because PC is 2 instructions ahead due to pipelining
-        self.offset = ((self.symbol_table[self.label] - self.location - 8) >> 2) & 0xFFFFFF
+        self.offset = (((self.symbol_table[self.label] - self.location) * 4 - 8) >> 2) & 0xFFFFFF
         self.encoding |= self.offset
 
 
@@ -143,7 +146,10 @@ class DataProcessing(Instruction):
         raise ValueError
         
     def encode_op2(self, op2: list[str]) -> int:
-        if op2[0][0] == '#':
+        if not op2:
+            raise SyntaxError(f"Missing operand: {self.line}")
+
+        if is_imm(op2[0]):
             self.is_imm = True
             imm = parse_immediate(op2[0])
             imm, rot = self.compress(imm)
@@ -249,8 +255,8 @@ class SingleDataTransfer(Instruction):
         addr = addr.replace('[', ' ', 1)
         addr = addr.replace(']', ' ', 1)
         addr = addr.split()
-        preindex = len(inside_delimiter) > 2 or len(addr) == 1
-        self.tokens.append(preindex)
+        is_preindex = len(inside_delimiter) > 2 or len(addr) == 1
+        self.tokens.append(is_preindex)
 
         sign = '+'
         if len(addr) > 1:
@@ -321,7 +327,7 @@ class SingleDataTransfer(Instruction):
         op = m.group(1)
         self.is_register_specified = False
         self.is_preindex = self.tokens[2]
-        self.writeback = False
+        self.is_writeback = False
         self.is_load = op == 'LDR' 
         self.cond = self.CONDS[m.group(2)] if m.group(2) else self.CONDS['AL']
         self.is_byte = True if m.group(3) else False
@@ -330,11 +336,11 @@ class SingleDataTransfer(Instruction):
         self.parse_addr(self.tokens[4:])
 
         if m.group(4) and not self.is_preindex:
-            self.writeback = True
+            self.is_writeback = True
         elif m.group(4) and self.is_preindex:
             raise SyntaxError
         elif self.tokens[-1] == '!' and self.is_preindex:
-            self.writeback = True
+            self.is_writeback = True
 
 
     def encode(self):
@@ -344,7 +350,7 @@ class SingleDataTransfer(Instruction):
         self.encoding |= self.is_preindex << 24
         self.encoding |= self.is_up << 23
         self.encoding |= self.is_byte << 22
-        self.encoding |= self.writeback << 21
+        self.encoding |= self.is_writeback << 21
         self.encoding |= self.is_load << 20
         self.encoding |= self.rn << 16
         self.encoding |= self.rd << 12

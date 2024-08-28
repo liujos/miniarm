@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 import re
 from armasm.instructions import *
 import struct
@@ -54,9 +54,9 @@ class AssemblyParser:
                 self.instructions.append(Branch(line, self.symbol_table, self.location))
             elif op[0:3] in DataProcessing.OPCODES:
                 self.instructions.append(DataProcessing(line))
-            elif op[0:3] in {'MUL', 'MUL'}:
+            elif op[0:3] == 'MUL' or op[0:3] == 'MLA':
                 self.instructions.append(Multiply(line))
-            elif op[0:3] in {'LDR', 'STR'}:
+            elif op[0:3] == 'LDR' or op[0:3] == 'STR':
                 self.instructions.append(SingleDataTransfer(line))
             else:
                 raise SyntaxError(line)
@@ -70,6 +70,6 @@ class AssemblyParser:
         with open('file.bin', 'wb') as f:
             for ins in self.instructions:
                 ins.encode()
-                f.write(struct.pack('>I', ins.encoding))
+                f.write(struct.pack('<I', ins.encoding))
 
 

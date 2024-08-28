@@ -39,6 +39,12 @@ class TestSingleDataTransfer(unittest.TestCase):
         i6.encode()
         self.assertEqual(i6.encoding, 0xE483B0F5)
 
+    def test7(self):
+        i7 = SingleDataTransfer('STR  R11, [ R3 LSL R4]')
+        i7.parse_line()
+        i7.encode()
+        self.assertEqual(i7.encoding, 0xE483B0F5)
+
 if __name__ == '__main__':
     unittest.main()
 
