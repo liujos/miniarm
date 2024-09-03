@@ -26,6 +26,17 @@ cd ../../assembler
 pip install -e .
 ```
 
+## Usage
+
+
+
+## TODO
+
+- [ ] Simulate pipelining with multithreading
+- [ ] Implement a debug mode with inspiration from GDB
+- [ ] Write the CPU emulator in Verilog
+- [ ] Have the assembler output an ELF file
+- [ ] Write a linker 
    
 
 
