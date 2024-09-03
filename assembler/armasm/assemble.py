@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 import re
 from armasm.instructions import *
 import struct
@@ -19,12 +18,12 @@ class AssemblyParser:
         self.symbol_table = {}
         self.instructions = []
 
-    def parse_file(self, f):
-        with open(f, "r") as file:
+    def assemble(self, input: str, output = None):
+        with open(input, "r") as file:
             self.program = file.read().upper().splitlines()
 
         self.first_pass()
-        self.second_pass()
+        self.second_pass(output)
 
     def first_pass(self):
         for i, line in enumerate(self.program):
@@ -56,8 +55,9 @@ class AssemblyParser:
             self.location += 1
             self.program[i] = line
 
-    def second_pass(self):
-        with open('prog.bin', 'wb') as f:
+    def second_pass(self, output):
+        output = 'program.bin' if not output else output
+        with open(output, 'wb') as f:
             for ins in self.instructions:
                 ins.encode()
                 f.write(struct.pack('<I', ins.encoding))

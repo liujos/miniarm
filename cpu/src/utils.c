@@ -109,7 +109,9 @@ dump
     uint32_t registers[]
 )
 {
-    for (int i = 0; i < 17; i++) 
+    printf("\n");
+
+    for (int i = 0; i <= 15; i++) 
     {
         if (i != 0 && i % 4 == 0)
         {
@@ -120,11 +122,13 @@ dump
         {
             printf("r%d:  0x%08x  ", i, registers[i]);
         }
-        else   
+        else 
         {
             printf("r%d: 0x%08x  ", i, registers[i]);
-        }
+        } 
     }
 
     printf("\n\n");
+    printf("CPSR: 0x%08x ", registers[16]);
+    printf("\n");
 }
