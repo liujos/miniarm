@@ -55,8 +55,7 @@ python3 assemble.py prog.s -o prog.bin
 ./cpu prog.bin
 ```
 
-In the build directory you will find the a copy of assemble.py and a test program that increments r1 from 0 to 100
-
+4. In cpu/build you will find a copy of assemble.py and a test program
 
 ## TODO
 
