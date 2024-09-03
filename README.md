@@ -10,7 +10,7 @@ miniarm is a CPU emulator of an ARM processor and allows the user to execute ARM
 
 ## How to Build
 
-'''
+'''zsh
 cd miniarm/assembler
 '''
 
