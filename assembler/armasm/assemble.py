@@ -3,25 +3,15 @@ import re
 from armasm.instructions import *
 import struct
 
-#skip leading white spaces
-#skip comments by ignoring everything that follows a ';'
-#read an instruction and convert it to its machine code representation
-#the last two characters of the instruction denote the condition flags
-#process the operands following an instruction
-#resolve labels to memory addresses
+#first pass: 
+#   omit all leading white spaces
+#   omit all comments (all characters following a ';')
+#   create a symbol table (label : location)
 
-#in first pass we want to omit all leading white spaces
-#omit all comments (all characters following a ';')
-#create a symbol table (label or variable name : location)
-
-#in second pass each line is simply an operation
-#translate each mneumonic to its corresponding opcodes
-#last two letters of instruction pneumonic will correspond to a condition code
-#else it executes always
-#grab operands
-
-# regex for getting rid of leading white spaces: '\s+'
-# for getting rid of comments ';.*'
+#second pass: each line is simply an operation
+#   translate each mneumonic to its corresponding opcode
+#   last two letters of instruction pneumonic will correspond to a condition code
+#   grab operands
 
 class AssemblyParser:
     def __init__(self):

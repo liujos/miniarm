@@ -282,10 +282,13 @@ singleDataTransfer
 
 void branch(TemporaryRegisters *pTemporaryRegisters)
 {
+    uint32_t offset = bits(pTemporaryRegisters->instruction, 23, 0);
     pTemporaryRegisters->link = bit(pTemporaryRegisters->instruction, 24);
-    pTemporaryRegisters->ALUOutput = arithmeticShiftRight(bits(pTemporaryRegisters->instruction, 23, 0) << 8, 6) + 4;
-    /*printf("0x%x\n", bits(pTemporaryRegisters->instruction, 23, 0));
-    printf("0x%x\n", pTemporaryRegisters->ALUOutput);*/
+
+    /* assembler assumes the PC is 2 instructions ahead of the current instruction
+       but we add only 4 because our PC is 1 instruction ahead since it's not pipelined */
+
+    pTemporaryRegisters->ALUOutput = arithmeticShiftRight(offset << 8, 6) + 4;
 }
 
 void 
