@@ -6,8 +6,12 @@ miniarm is a CPU emulator of an ARM processor and allows the user to execute ARM
 - All data processing instructions
 - Branch with and without link
 - Single word/byte data transfers
-- Multiplication with and without accumulate
+- Multiplication 
 
-## Installation
+## How to Build
+
+'''
+cd miniarm/assembler
+'''
 
 
