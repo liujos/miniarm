@@ -10,6 +10,7 @@
 #define C 29
 #define V 28
 #define CPSR 16
+#define MEMORY_SIZE 0x1000
 
 typedef struct TemporaryRegisters 
 {

@@ -67,7 +67,7 @@ class AssemblyParser:
             self.program[i] = line
 
     def second_pass(self):
-        with open('file.bin', 'wb') as f:
+        with open('prog.bin', 'wb') as f:
             for ins in self.instructions:
                 ins.encode()
                 f.write(struct.pack('<I', ins.encoding))

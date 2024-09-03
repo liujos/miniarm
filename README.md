@@ -1,7 +1,13 @@
 ## miniarm
 
-ARM CPU Emulator with a corresponding assembler.
+miniarm is a CPU emulator of an ARM processor and allows the user to execute ARM binaries on a different platform. An ARM assembler is also included.  
 
-## Features:
- - Implements an integer subset of the ISA (branch, single data transfer, data processing, multiplication)
- - Assembler converts ARM assembly into the corresponding binary
+## Supported Instructions
+    - All data processing instructions
+    - Branch with and without link
+    - Single word/byte data transfers
+    - Multiplication with and without accumulate
+
+## Installation
+
+

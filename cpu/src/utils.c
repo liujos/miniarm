@@ -103,16 +103,28 @@ bits
     return (sequence >> end) & ((1 << (start - end + 1)) - 1);
 }
 
-void dump(uint32_t registers[])
+void 
+dump
+(
+    uint32_t registers[]
+)
 {
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < 17; i++) 
+    {
         if (i != 0 && i % 4 == 0)
+        {
             printf("\n");
+        }
 
         if (i < 10)
+        {
             printf("r%d:  0x%08x  ", i, registers[i]);
+        }
         else   
+        {
             printf("r%d: 0x%08x  ", i, registers[i]);
+        }
     }
+
     printf("\n\n");
 }

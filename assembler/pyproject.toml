@@ -1,7 +1,7 @@
 [project]
 name='armasm'
 version='1.0'
-description='Arm7 assembler'
+description='ARM assembler'
 
 [build-system]
 build-backend='flit_core.buildapi'

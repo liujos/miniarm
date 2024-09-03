@@ -34,9 +34,11 @@ validCondition
     case LT:
         return bit(currentProcessStateRegister, N) != bit(currentProcessStateRegister, V);
     case GT:
-        return !bit(currentProcessStateRegister, Z) && (bit(currentProcessStateRegister, N) == bit(currentProcessStateRegister, V));
+        return !bit(currentProcessStateRegister, Z) && 
+            (bit(currentProcessStateRegister, N) == bit(currentProcessStateRegister, V));
     case LE:
-        return bit(currentProcessStateRegister, Z) || (bit(currentProcessStateRegister, N) != bit(currentProcessStateRegister, V));
+        return bit(currentProcessStateRegister, Z) || 
+            (bit(currentProcessStateRegister, N) != bit(currentProcessStateRegister, V));
     case AL:
         return  true;
     default:
@@ -73,7 +75,7 @@ void
 registerWriteback
 (
     TemporaryRegisters *pTemporaryRegisters, 
-    uint32_t registers[]
+    uint32_t            registers[]
 )
 {
     uint32_t rs = bits(pTemporaryRegisters->instruction, 19, 16);
@@ -110,9 +112,9 @@ registerWriteback
 void 
 registerFetch
 (
-    uint32_t instruction, 
+    uint32_t            instruction, 
     TemporaryRegisters *pTemporaryRegisters,
-    uint32_t registers[]
+    uint32_t            registers[]
 )
 {
     uint32_t rs = bits(instruction, 19, 16);
@@ -180,7 +182,6 @@ loadProgram
 
     if (!f) 
     {
-        perror("fopen() failed");
         return -1;
     }
 
@@ -209,8 +210,14 @@ main
         return 1;
     }
 
-    uint8_t *pMemory = (uint8_t *)malloc(0x1000);
+    uint8_t *pMemory = (uint8_t *)malloc(MEMORY_SIZE);
     int      programSize = loadProgram(pMemory, argv[1]);
+
+    if (!pMemory)
+    {
+        perror("malloc() failed");
+        return 1;
+    }
 
     if (programSize == -1) 
     {
@@ -218,11 +225,17 @@ main
         return 1;
     }
     
-    /* Using last index as CPSR register */
+    // Using last index as CPSR register
     uint32_t            registers[17] = {0};
     TemporaryRegisters *pTemporaryRegisters;
 
     pTemporaryRegisters = (TemporaryRegisters *)malloc(sizeof *pTemporaryRegisters);
+
+    if (!pTemporaryRegisters)
+    {
+        perror("malloc() failed");
+        return 1;
+    }
 
     while (registers[PC] != programSize) 
     {
@@ -242,8 +255,9 @@ main
         memoryReference(pMemory, pTemporaryRegisters);
 
         registerWriteback(pTemporaryRegisters, registers);
-        dump(registers);
     }
+
+    dump(registers);
 
     free(pTemporaryRegisters);
     free(pMemory);
