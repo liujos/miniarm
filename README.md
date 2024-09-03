@@ -39,4 +39,8 @@ pip install -e .
 - [ ] Write a linker 
    
 
+## Acknowledgements
+
+- [ARM Instruction Set](https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf)
+- Computer Architecture: A Quantitative Approach 5th Edition
 
