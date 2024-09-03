@@ -1,6 +1,6 @@
-## miniarm
+## About
 
-miniarm is a CPU emulator of an ARM processor and allows the user to execute ARM binaries on a different platform. An ARM assembler is also included.  
+miniarm contains an ARM CPU emulator and an ARM assembler for educational purposes.
 
 ## Supported Instructions
 - All data processing instructions
@@ -10,13 +10,10 @@ miniarm is a CPU emulator of an ARM processor and allows the user to execute ARM
 
 ## How to Build
 
-To build assembler:
-    cd miniarm
-    pip install -e assembler
-
-To build emulator:
-    cd cpu/build
-    make
+1. Clone the repo
+   '''sh
+   git clone https://github.com/liujos/miniarm.git
+   '''
 
    
 
