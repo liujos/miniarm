@@ -11,9 +11,9 @@ miniarm contains an ARM CPU emulator and an ARM assembler for educational purpos
 ## How to Build
 
 1. Clone the repo
-   '''sh
+   ```sh
    git clone https://github.com/liujos/miniarm.git
-   '''
+   ```
 
    
 
