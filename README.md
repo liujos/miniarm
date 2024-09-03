@@ -28,32 +28,34 @@ pip install -e .
 
 ## Usage
 
-The following code allows you to specify the input ARM assembly file and the name of the output file.
+1. Set up the assembler 
 
 ```python
 from armasm.assemble import AssemblyParser
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('input')
-parser.add_argument('-o', '--output')
+parser.add_argument('input') # ARM assembly file
+parser.add_argument('-o', '--output') # binary file
 args = parser.parse_args()
 
 ap = AssemblyParser()
 ap.assemble(args.input, args.output)
 ```
 
-Given that the file containing the code above is assemble.py
+2. Pass the ARM assembly file to assemble.py
 
 ```sh
 python3 assemble.py prog.s -o prog.bin
 ```
 
-This outputs an ARM binary named prog.bin. Then we can run the binary through the emulator as follows
+3. Run the binary through the CPU emulator
 
 ```sh
 ./cpu prog.bin
 ```
+
+In the build directory you will find the a copy of assemble.py and a test program that increments r1 from 0 to 100
 
 
 ## TODO
